@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./Header.module.css";
+import { connect } from "react-redux";
 
 const Header = () => {
   return <header className={styles["header-container"]}>
@@ -8,4 +9,8 @@ const Header = () => {
   </header>
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+  console.log(state)
+}
+
+export default connect(mapStateToProps)(Header);
