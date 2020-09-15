@@ -1,121 +1,55 @@
 import React from "react";
 
 import styles from "./ThreeHourForecast.module.css";
+import { get } from "lodash";
+import FieldWithlabel from "../FieldwithLabel";
 
-const ThreeHourForecast = ({threeHourData}) => {
-  const timeOptions = {timeZone: "Asia/Calcutta", day: "numeric", month: "numeric", weekday: "short"};
-  const time = new Date(threeHourData.dt * 1000).toLocaleString("en-IN", timeOptions);
+const ThreeHourForecast = ({threeHourData, cardIndex, expandState}) => {
+  const kelvinToCelsius = (temp) => {
+    return Math.round(temp - 273.15);
+  };
 
-  const renderExpandedCard = () => {
-    return <div className={styles["expanded-card-wrapper"]}>
-      <div className={styles["temp-image-desc-wrapper"]}>
-        <span className={styles["current-temp"]}>{Math.round(threeHourData.main.temp - 273.15)}&#176;</span>
-        <div className={styles["icon-wrapper"]}>
-          <img className={styles["weather-icon"]} src={`http://openweathermap.org/img/wn/${threeHourData.weather[0].icon}@2x.png`} alt={threeHourData.weather[0].icon}/>
-          <span className={styles["weather-description"]}>{threeHourData.weather[0].description}</span>
-        </div>
-        <div className={styles["wind-details"]}>
-          <span className={styles["wind-label"]}>Wind: </span>
-          <span className={styles["wind-direction"]}>{threeHourData.wind.deg}&#176;</span>
-          <span className={styles["wind-speed"]}>{threeHourData.wind.speed}m/sec</span>
-        </div>
-        <div className={styles["precipitation"]}>
-          <span className={styles["precipitation-label"]}>Precipitation: </span>
-          <span className={styles["precipitation-percent"]}>
-            {threeHourData.pop * 100} %
-          </span>
-        </div>
-        <div className={styles["cloudy"]}>
-          <span className={styles["cloudy-label"]}>Cloudy: </span>
-          <span className={styles["cloudy-percent"]}>
-            {threeHourData.clouds.all} %
-          </span>
-        </div>
+  const weather = get(threeHourData, ["weather", 0], []);
+  const windObj = get(threeHourData, ["wind"], {});
+  const threeHourDataMainObj = get(threeHourData, ["main"], {});
+  const windDirection = `${windObj.deg}${String.fromCharCode(176)}`;
+  const windSpeed = `${windObj.speed}m/sec`;
+  const weatherIconUrl = `http://openweathermap.org/img/wn/${weather.icon}@2x.png`;
+  const precipitationPercent = `${threeHourData.pop * 100} %`;
+  const cloudyPercent = `${threeHourData.clouds.all} %`;
+  const maxMinTemp = `${kelvinToCelsius(threeHourDataMainObj.temp_max)}${String.fromCharCode(176)} / ${kelvinToCelsius(threeHourDataMainObj.temp_min)}${String.fromCharCode(176)}`;
+  const feelsLikeTemp = `${kelvinToCelsius(threeHourDataMainObj.feels_like)}${String.fromCharCode(176)}`;
+  const visibility = `${threeHourData.visibility}m`;
+  const humidityPercent = `${Math.round(threeHourDataMainObj.humidity)} %`;
+  const pressureVal = `${Math.round(threeHourDataMainObj.pressure)} hPa`;
+  const groundLevel = `${Math.round(threeHourDataMainObj.grnd_level)} hPa`;
+  const seaLevel = `${Math.round(threeHourDataMainObj.sea_level)} hPa`;
+
+  return <div className={styles["expanded-card-wrapper"]}>
+    <div className={styles["temp-image-desc-wrapper"]}>
+      <span className={styles["current-temp"]}>{`${kelvinToCelsius(threeHourDataMainObj.temp)}`}&#176;</span>
+      <div className={styles["icon-wrapper"]}>
+        <img className={styles["weather-icon"]} src={weatherIconUrl} alt={weather.icon}/>
+        <span className={styles["weather-description"]}>{weather.description}</span>
       </div>
-      <div className={styles["other-details-wrapper"]}>
-        <div className={styles["details-column-1"]}>
-          <div className={styles["field-wrapper"]}>
-            <span className={styles["field-label"]}>Max/Min: </span>
-            <span className={styles["field-val"]}>
-              {Math.round(threeHourData.main.temp_max - 273.15)}&#176; / {Math.round(threeHourData.main.temp_min - 273.15)}&#176;
-            </span>
-          </div>
-          <div className={styles["field-wrapper"]}>
-            <span className={styles["field-label"]}>Feels Like: </span>
-            <span className={styles["field-val"]}>
-              {Math.round(threeHourData.main.temp_min - 273.15)}&#176;
-            </span>
-          </div>
-          <div className={styles["field-wrapper"]}>
-            <span className={styles["field-label"]}>Visibility: </span>
-            <span className={styles["field-val"]}>
-              {threeHourData.visibility}m
-            </span>
-          </div>
-          <div className={styles["field-wrapper"]}>
-            <span className={styles["field-label"]}>Humidity: </span>
-            <span className={styles["field-val"]}>
-              {Math.round(threeHourData.main.humidity)}%
-            </span>
-          </div>
-        </div>
-        <div className={styles["details-column-2"]}>
-          <div className={styles["field-wrapper"]}>
-            <span className={styles["field-label"]}>Pressure: </span>
-            <span className={styles["field-val"]}>
-              {Math.round(threeHourData.main.pressure)}hPa
-            </span>
-          </div>
-          <div className={styles["field-wrapper"]}>
-            <span className={styles["field-label"]}>Ground Level: </span>
-            <span className={styles["field-val"]}>
-              {Math.round(threeHourData.main.grnd_level)}hPa
-            </span>
-          </div>
-          <div className={styles["field-wrapper"]}>
-            <span className={styles["field-label"]}>Sea Level: </span>
-            <span className={styles["field-val"]}>
-              {Math.round(threeHourData.main.sea_level)}hPa
-            </span>
-          </div>
-        </div>
+      <FieldWithlabel wrapperClass="wind-details" label="Wind" value1={windDirection} value1Class="wind-direction" value2={windSpeed} />
+      <FieldWithlabel wrapperClass="precipitation" label="Precipitation" value1={precipitationPercent} />
+      <FieldWithlabel wrapperClass="cloudy" label="Cloudy" value1={cloudyPercent} />
+    </div>
+    {cardIndex === expandState.openCardIndex && expandState.isExpanded && <div className={styles["other-details-wrapper"]}>
+      <div className={styles["details-column-1"]}>
+        <FieldWithlabel label="Max/Min" value1={maxMinTemp} />
+        <FieldWithlabel label="Feels Like" value1={feelsLikeTemp} />
+        <FieldWithlabel label="Visibility" value1={visibility} />
+        <FieldWithlabel label="Humidity" value1={humidityPercent} />
       </div>
-    </div>
-  }
-
-  const renderMinimizedCard = () => {
-    return <div className={styles["minimized-card"]}>
-      <time className={styles.timestamp}>{time}</time>
-      <span className={styles["current-temp"]}>{threeHourData.main.temp - 273.15}</span>
-      <img className={styles["weather-icon"]} src={`http://openweathermap.org/img/wn/${threeHourData.weather[0].icon}@2x.png`} alt={threeHourData.weather[0].icon}/>
-      <span className={styles["weather-description"]}>{threeHourData.weather[0].description}</span>
-      <span className={styles["precipitation-percent"]}>{threeHourData.pop * 100} %</span>
-      <span className={styles["wind-speed"]}>{threeHourData.wind.speed}m/sec</span>
-    </div>
-  }
-
-  return renderExpandedCard()
-
-  // return <div>
-
-  //   <div>Cloudiness: {threeHourData.clouds.all}%</div>
-  //   <time>Timestamp: {time}</time>
-  //   <div>Temp: {threeHourData.main.temp - 273.15}</div>
-  //   <div>Max Temp: {threeHourData.main.temp_max - 273.15}</div>
-  //   <div>Min Temp: {threeHourData.main.temp_min - 273.15}</div>
-  //   <div>Feels Like: {threeHourData.main.feels_like - 273.15}</div>
-  //   <div>humidity: {threeHourData.main.humidity}%</div>
-  //   <div>Pressure: {threeHourData.main.pressure}hPa</div>
-  //   <div>Sea Level: {threeHourData.main.sea_level}hPa</div>
-  //   {threeHourData.rain && <div>Rain for last 3h: {threeHourData.rain["3h"]} mm</div>}
-  //   {threeHourData.pop && <div>Rain for last 3h: {threeHourData.pop} mm</div>}
-  //   <div>visibility: {threeHourData.visibility} mtrs</div>
-  //   <div>weather description: {threeHourData.weather[0].description}</div>
-  //   <img src={`http://openweathermap.org/img/wn/${threeHourData.weather[0].icon}@2x.png`} alt={threeHourData.weather[0].icon}/>
-  //   <div>weather main: {threeHourData.weather[0].main}</div>
-  //   <div>wind deg: {threeHourData.wind.deg} degrees</div>
-  //   <div>wind speed: {threeHourData.wind.speed}m/sec</div>
-  // </div>
+      <div className={styles["details-column-2"]}>
+        <FieldWithlabel label="Pressure" value1={pressureVal} />
+        <FieldWithlabel label="Ground Level" value1={groundLevel} />
+        <FieldWithlabel label="Sea Level" value1={seaLevel} />
+      </div>
+    </div>}
+  </div>
 }
 
 export default ThreeHourForecast;

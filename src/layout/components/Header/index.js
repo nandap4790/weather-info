@@ -10,7 +10,7 @@ const Header = () => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
+
 }
 
 export default connect(mapStateToProps)(Header);

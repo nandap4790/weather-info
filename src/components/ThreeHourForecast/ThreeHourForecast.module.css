@@ -1,3 +1,16 @@
+.temp-image-desc-wrapper {
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.weather-icon {
+  position: relative;
+  left: -12px;
+  width: 60px;
+  height: 60px;
+}
+
 .minimized-card {
   width: 100%;
   display: flex;
@@ -5,11 +18,6 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px;
-}
-
-.weather-icon {
-  width: 60px;
-  height: 60px;
 }
 
 .expanded-card-wrapper {
@@ -22,10 +30,20 @@
   margin-right: 24px;
 }
 
-.temp-image-desc-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+@media (min-width: 1024px) {
+  .temp-image-desc-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+  }
+
+  .weather-icon {
+    position: relative;
+    left: 0;
+    width: 60px;
+    height: 60px;
+  }  
 }
 
 .icon-wrapper {
@@ -34,38 +52,12 @@
   margin-right: 24px;
 }
 
-.wind-details,
-.precipitation {
-  margin-right: 24px;
-}
-
-.wind-direction {
-  margin-right: 8px;
-}
-
 .weather-description {
   text-transform: capitalize;
-}
-
-.wind-label,
-.precipitation-label,
-.cloudy-label,
-.field-label {
-  font-weight: bold;
 }
 
 .other-details-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 32px;
-}
-
-.field-wrapper {
-  margin: 16px 0;
-  padding-bottom: 16px;
-  border-bottom: 1px solid;
-}
-
-.field-wrapper:last-of-type {
-  border-bottom: none;
 }

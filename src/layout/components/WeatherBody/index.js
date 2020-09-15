@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 
 import LocationDetailsCard from "../../../components/LocationDetailsCard";
 import SingleDayCard from "../../../components/SingleDayCard";
+import { setExpandedCards } from "../../../redux/reducers/actions";
 
-const WeatherBody = ({cityData}) => {
+const WeatherBody = ({foo, setExpandedCards}) => {
   // this gives an object with dates as keys
-  const cloneCityData = cityData && [...cityData.list];
-  cityData && cloneCityData.forEach((item) => {
+  const cloneCityData = [...foo.list];
+  cloneCityData.forEach((item) => {
     item.date = new Date(item.dt * 1000).toLocaleString("en-US", {day: "numeric", timeZone: "Asia/Calcutta"});
   });
 
@@ -17,7 +18,7 @@ const WeatherBody = ({cityData}) => {
     return acc;
    }, {});
 
-  const cityDetails = cityData && cityData.city;
+  const cityDetails = foo.city;
   
   const renderSingleDayCard = () => {
     let list = [];
@@ -31,22 +32,28 @@ const WeatherBody = ({cityData}) => {
     });
   }
 
-  const [initialSingleCard, setInitialSingleCard] = useState(null)
+  const [initialSingleCard, setInitialSingleCard] = useState(null);
 
   useEffect(() => {
+    const getDateFromTimestamp = foo.list[0].dt_txt.split(" ");
+    setExpandedCards(getDateFromTimestamp[0]);
     setInitialSingleCard(0);
-  }, []);
+  }, [foo.list, setExpandedCards]);
 
   return (
     <>
       <LocationDetailsCard city={cityDetails} />
-      {cityData && renderSingleDayCard()}
+      {renderSingleDayCard()}
     </>
   )
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  setExpandedCards: (arr) => dispatch(setExpandedCards(arr)),
+});
 
 const mapStateToProps = (state) => ({
   cityData: get(state, ["cityDataReducer", "cityData"], null),
 })
 
-export default connect(mapStateToProps)(WeatherBody);
+export default connect(mapStateToProps, mapDispatchToProps)(WeatherBody);

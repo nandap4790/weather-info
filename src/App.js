@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Header from './layout/components/Header';
@@ -10,11 +10,12 @@ import { setCityData } from './redux/reducers/actions';
 import Axios from 'axios';
 
 const App = ({ setCityData }) => {
+  const [foo, setFoo] = useState({});
   useEffect(() => {
     getCityData()
-    .then((res) => setCityData(res.data))
+    .then((res) => setFoo(res.data))
     .catch((err) => console.log(err.message))
-  });
+  }, []);
 
   const getCityData = () => {
     return Axios.get('https://api.openweathermap.org/data/2.5/forecast', {
@@ -28,7 +29,7 @@ const App = ({ setCityData }) => {
   return (
     <div id="container" className="container">
       <Header />
-      <WeatherBody />
+      {Object.keys(foo).length > 0 && <WeatherBody foo={foo} />}
       <Footer />
     </div>
   );

@@ -1,0 +1,29 @@
+.wind-details,
+.precipitation {
+  margin-bottom: 8px;
+}
+
+@media (min-width: 1024px) {
+  .wind-details,
+  .precipitation {
+    margin: 0 24px 0 0;
+  }
+}
+
+.field-label {
+  font-weight: bold;
+}
+
+.wind-direction {
+  margin-right: 8px;
+}
+
+.field-wrapper {
+  margin: 16px 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid;
+}
+
+.field-wrapper:last-of-type {
+  border-bottom: none;
+}

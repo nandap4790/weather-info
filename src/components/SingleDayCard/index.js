@@ -4,18 +4,22 @@ import styles from "./SingleDayCard.module.css";
 
 import ThreeHourForecast from "../ThreeHourForecast";
 
-const SingleDayCard = ({singleDayData, cardIndex, initialSingleCard}) => {
+const SingleDayCard = ({ singleDayData, cardIndex, initialSingleCard}) => {
   const [defaultHour, setDefaultHour] = useState(0);
+  const [expandState, setExpandState] = useState({});
 
   useEffect(() => {
-
-  }, []);
-
-  const renderThreeHourForecast = () => {
-    return singleDayData.map((item, index) => {
-      return index === defaultHour ? <div className="single-day-card"><ThreeHourForecast threeHourData={item} /></div> : null
-    });
-  }
+    const testObj = {
+      isExpanded: true,
+      openCardIndex: cardIndex
+    }
+    if(cardIndex === 0) {
+      setExpandState(testObj);
+    } else {
+      testObj.isExpanded = false
+      setExpandState(testObj);
+    }
+  }, [cardIndex]);
 
   const renderTimeTab = () => {
     return singleDayData.map((item, index) => {
@@ -42,20 +46,33 @@ const SingleDayCard = ({singleDayData, cardIndex, initialSingleCard}) => {
     return <time className={styles["time-day"]}>{time}</time>
   }
 
-  const renderFirstDayMaximizedCard = () => {
-    return <div className={styles["maximized-card"]}>
-      {renderTimeDay()}
-      <div className={styles["timestamp-wrapper"]}>{renderTimeTab()}</div>
-      {renderThreeHourForecast()}
-    </div>
+  const toggleCard = (index, expandState) => {
+    const testObj = {
+      isExpanded: expandState,
+      openCardIndex: index
+    }
+    setExpandState(testObj)
   }
 
-  const renderFirstHourMinimizedCard = () => {
-    return <div className="single-day-card"><ThreeHourForecast threeHourData={singleDayData[0]} /></div>
+  const renderMaximizedCard = () => {
+    return singleDayData.map((item, index) => {
+      return index === defaultHour ? 
+        <div>
+          <div className={styles["timestamp-wrapper"]}>{renderTimeTab()}</div>
+          <ThreeHourForecast threeHourData={item} cardIndex={cardIndex} initialSingleCard={initialSingleCard} expandState={expandState} />
+        </div> : null
+    });
   }
-  return <div>
-    {renderFirstDayMaximizedCard()}
-    {/* {cardIndex === initialSingleCard ? renderFirstDayMaximizedCard() : null} */}
+
+  return <div className={styles["card-wrapper"]}>
+    <div className={styles["time-day-wrapper"]}>
+      {renderTimeDay()}
+      <div className={styles["plus-minus"]} onClick={() => toggleCard(cardIndex, !expandState.isExpanded)}>
+        {!expandState.isExpanded && <div className={styles["vertical-line"]}></div>}
+        <div className={styles["horizontal-line"]}></div>
+      </div>
+    </div>
+    {renderMaximizedCard()}
   </div>
 }
 
