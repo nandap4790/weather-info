@@ -5,7 +5,7 @@ import styles from "./FieldWithLabel.module.css";
 
 const FieldWithlabel = ({wrapperClass, label, value1, value2, value1Class}) => {
   const wrapperClassName = wrapperClass || "field-wrapper";
-  const value1ClassName = value1Class || "field-val";
+  const value1ClassName = value1Class || "field-val"
 
   return <div className={styles[wrapperClassName]}>
     <span className={styles["field-label"]}>{label}: </span>
