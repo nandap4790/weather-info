@@ -4,8 +4,24 @@
   --desktop: 1200px;
 
   /* Colors */
+  --dark-gray: #222222;
+  --white: #ffffff;
+  --light-gray: #cccccc;
+  --rgbPurple: 26, 53, 124;
+  --rgbBlack: 0,0,0;
   /* Spacings */
+  --space05: 0.5rem;
+  --space075: 0.75rem;
+  --space1: 1rem;
+  --space15: 1.5rem;
+  --space2: 2rem;
+  --space3: 3rem;
   /* Fonts */
+  --base: 1rem;
+  --base-1: 1.5rem;
+  --base-medium: 2rem;
+  --base-large: 3rem;
+  --bold: 700;
 }
 
 /* Normalize CSS */

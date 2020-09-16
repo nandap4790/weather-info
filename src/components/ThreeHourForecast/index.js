@@ -1,8 +1,10 @@
 import React from "react";
+import { get } from "lodash";
+import { object, number } from "prop-types";
+
+import FieldWithlabel from "../FieldwithLabel";
 
 import styles from "./ThreeHourForecast.module.css";
-import { get } from "lodash";
-import FieldWithlabel from "../FieldwithLabel";
 
 const ThreeHourForecast = ({threeHourData, cardIndex, expandState}) => {
   const kelvinToCelsius = (temp) => {
@@ -50,6 +52,12 @@ const ThreeHourForecast = ({threeHourData, cardIndex, expandState}) => {
       </div>
     </div>}
   </div>
+}
+
+ThreeHourForecast.propTypes = {
+  threeHourData: object,
+  cardIndex: number,
+  expandState: object
 }
 
 export default ThreeHourForecast;

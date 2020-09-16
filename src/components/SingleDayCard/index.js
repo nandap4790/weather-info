@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { number, array } from "prop-types";
 
 import styles from "./SingleDayCard.module.css";
 
 import ThreeHourForecast from "../ThreeHourForecast";
 
-const SingleDayCard = ({ singleDayData, cardIndex, initialSingleCard}) => {
+const SingleDayCard = ({ singleDayData, cardIndex }) => {
   const [defaultHour, setDefaultHour] = useState(0);
   const [expandState, setExpandState] = useState({});
 
   useEffect(() => {
-    const testObj = {
+    const cardObj = {
       isExpanded: true,
       openCardIndex: cardIndex
     }
     if(cardIndex === 0) {
-      setExpandState(testObj);
+      setExpandState(cardObj);
     } else {
-      testObj.isExpanded = false
-      setExpandState(testObj);
+      cardObj.isExpanded = false
+      setExpandState(cardObj);
     }
   }, [cardIndex]);
 
@@ -47,11 +48,11 @@ const SingleDayCard = ({ singleDayData, cardIndex, initialSingleCard}) => {
   }
 
   const toggleCard = (index, expandState) => {
-    const testObj = {
+    const cardObj = {
       isExpanded: expandState,
       openCardIndex: index
     }
-    setExpandState(testObj)
+    setExpandState(cardObj)
   }
 
   const renderMaximizedCard = () => {
@@ -59,7 +60,7 @@ const SingleDayCard = ({ singleDayData, cardIndex, initialSingleCard}) => {
       return index === defaultHour ? 
         <div>
           <div className={styles["timestamp-wrapper"]}>{renderTimeTab()}</div>
-          <ThreeHourForecast threeHourData={item} cardIndex={cardIndex} initialSingleCard={initialSingleCard} expandState={expandState} />
+          <ThreeHourForecast threeHourData={item} cardIndex={cardIndex} expandState={expandState} />
         </div> : null
     });
   }
@@ -75,5 +76,10 @@ const SingleDayCard = ({ singleDayData, cardIndex, initialSingleCard}) => {
     {renderMaximizedCard()}
   </div>
 }
+
+SingleDayCard.propTypes = {
+  singleDayData: array,
+  cardIndex: number,
+};
 
 export default SingleDayCard;

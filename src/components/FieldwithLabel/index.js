@@ -1,4 +1,5 @@
 import React from "react";
+import { string } from "prop-types";
 
 import styles from "./FieldWithLabel.module.css";
 
@@ -12,5 +13,13 @@ const FieldWithlabel = ({wrapperClass, label, value1, value2, value1Class}) => {
     {value2 && <span className={styles["field-val"]}>{value2}</span>}
   </div>
 }
+
+FieldWithlabel.propTypes = {
+  wrapperClass: string,
+  label: string,
+  value1: string,
+  value2: string,
+  value1Class: string,
+};
 
 export default FieldWithlabel;

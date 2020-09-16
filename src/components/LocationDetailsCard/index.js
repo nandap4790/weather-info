@@ -1,12 +1,15 @@
 import React from "react";
 import { get } from "lodash";
+import { object } from "prop-types";
 
-import styles from "./LocationDetailsCard.module.css";
 import FieldWithlabel from "../FieldwithLabel";
 
+import styles from "./LocationDetailsCard.module.css";
+
 const LocationDetailsCard = ({ city }) => {
-	const latitude = `${get(city, ["coord", "lat"], null)}${String.fromCharCode(176)}`;
-	const longitude = `${get(city, ["coord", "lon"], null)}${String.fromCharCode(176)}`	;
+	const superDegree = String.fromCharCode(176);
+	const latitude = `${get(city, ["coord", "lat"], null)}${superDegree}`;
+	const longitude = `${get(city, ["coord", "lon"], null)}${superDegree}`;
 
 	return city ? <div className={styles["location-details-wrapper"]}>
 		<h2 className={styles["city-name"]}>{city.name}</h2>
@@ -16,5 +19,9 @@ const LocationDetailsCard = ({ city }) => {
 		</div>
 	</div > : null;
 }
+
+LocationDetailsCard.propTypes = {
+  city: object,
+};
 
 export default LocationDetailsCard;

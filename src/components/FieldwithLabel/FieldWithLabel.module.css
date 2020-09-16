@@ -1,27 +1,27 @@
 .wind-details,
 .precipitation {
-  margin-bottom: 8px;
+  margin-bottom: var(--space05);
 }
 
 @media (min-width: 1024px) {
   .wind-details,
   .precipitation {
-    margin: 0 24px 0 0;
+    margin: 0 var(--space15) 0 0;
   }
 }
 
 .field-label {
-  font-weight: bold;
+  font-weight: var(--bold);
 }
 
 .wind-direction {
-  margin-right: 8px;
+  margin-right: var(--space05);
 }
 
 .field-wrapper {
-  margin: 16px 0;
-  padding-bottom: 16px;
-  border-bottom: 1px solid;
+  margin: var(--space1) 0;
+  padding-bottom: var(--space1);
+  border-bottom: 1px solid var(--dark-gray);
 }
 
 .field-wrapper:last-of-type {
