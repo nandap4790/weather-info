@@ -47,5 +47,13 @@ This is added as a part of the pre-commit hook using `husky`.
 The app is hosted on Firebase and can be accessed on: [https://test-project-nkp.firebaseapp.com/](https://test-project-nkp.firebaseapp.com/).
 (Apologies for the url containing `test`).
 
+### What more could have been done ?
+
+1. I initially added the react-redux to see if it was required, but then I felt it would have been an overuse, it could have been probably used if we had used a search for all the cities returned by the api.
+2. A bit more on the ui end.
+3. I could have added more tests, but I haven't used off late much of the tests on the react components, so I will have to go through the docs.
+4. The data could have been handled on the server side, since passing the ui off the frontend is a security threat, but used it just for this example.
+
+
 
 
