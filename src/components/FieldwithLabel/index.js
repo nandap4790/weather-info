@@ -16,8 +16,8 @@ const FieldWithlabel = ({
   return (
     <div className={styles[wrapperClassName]}>
       <span className={styles["field-label"]}>{label}: </span>
-      {value1 && <span className={styles[value1ClassName]}>{value1}</span>}
-      {value2 && <span className={styles["field-val"]}>{value2}</span>}
+      <span className={styles[value1ClassName]}>{value1}</span>
+      <span className={styles["field-val"]}>{value2}</span>
     </div>
   );
 };
