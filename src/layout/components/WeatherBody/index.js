@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { get } from "lodash";
-import { connect } from "react-redux";
+import React from "react";
+import { object } from "prop-types";
 
 import LocationDetailsCard from "../../../components/LocationDetailsCard";
 import SingleDayCard from "../../../components/SingleDayCard";
-import { setExpandedCards } from "../../../redux/reducers/actions";
 
-const WeatherBody = ({foo, setExpandedCards}) => {
+const WeatherBody = ({cityData}) => {
   // this gives an object with dates as keys
-  const cloneCityData = [...foo.list];
+  const cloneCityData = [...cityData.list];
   cloneCityData.forEach((item) => {
     item.date = new Date(item.dt * 1000).toLocaleString("en-US", {day: "numeric", timeZone: "Asia/Calcutta"});
   });
@@ -18,7 +16,7 @@ const WeatherBody = ({foo, setExpandedCards}) => {
     return acc;
    }, {});
 
-  const cityDetails = foo.city;
+  const cityDetails = cityData.city;
   
   const renderSingleDayCard = () => {
     let list = [];
@@ -28,17 +26,9 @@ const WeatherBody = ({foo, setExpandedCards}) => {
     }
 
     return list.map((item, index) => {
-      return <SingleDayCard singleDayData={item} cardIndex={index} initialSingleCard={initialSingleCard} />
+      return <SingleDayCard singleDayData={item} cardIndex={index} />
     });
   }
-
-  const [initialSingleCard, setInitialSingleCard] = useState(null);
-
-  useEffect(() => {
-    const getDateFromTimestamp = foo.list[0].dt_txt.split(" ");
-    setExpandedCards(getDateFromTimestamp[0]);
-    setInitialSingleCard(0);
-  }, [foo.list, setExpandedCards]);
 
   return (
     <>
@@ -48,12 +38,8 @@ const WeatherBody = ({foo, setExpandedCards}) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setExpandedCards: (arr) => dispatch(setExpandedCards(arr)),
-});
+WeatherBody.propTypes = {
+  cityData: object
+}
 
-const mapStateToProps = (state) => ({
-  cityData: get(state, ["cityDataReducer", "cityData"], null),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherBody);
+export default WeatherBody;

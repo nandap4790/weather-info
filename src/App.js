@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 
 import Header from './layout/components/Header';
 import Footer from './layout/components/Footer';
 import WeatherBody from './layout/components/WeatherBody';
 
 import './App.css';
-import { setCityData } from './redux/reducers/actions';
 import Axios from 'axios';
 
-const App = ({ setCityData }) => {
-  const [foo, setFoo] = useState({});
+const App = () => {
+  const [cityData, setCityData] = useState({});
   useEffect(() => {
     getCityData()
-    .then((res) => setFoo(res.data))
+    .then((res) => setCityData(res.data))
     .catch((err) => console.log(err.message))
   }, []);
 
@@ -29,18 +27,10 @@ const App = ({ setCityData }) => {
   return (
     <div id="container" className="container">
       <Header />
-      {Object.keys(foo).length > 0 && <WeatherBody foo={foo} />}
+      {Object.keys(cityData).length > 0 && <WeatherBody cityData={cityData} />}
       <Footer />
     </div>
   );
 }
 
-const mapStateToProps = () => ({
-
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setCityData: (obj) => dispatch(setCityData(obj)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
