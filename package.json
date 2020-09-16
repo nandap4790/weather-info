@@ -39,7 +39,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --pattern `**/*.js`"
+      "pre-commit": "pretty-quick --staged"
     }
   }
 }

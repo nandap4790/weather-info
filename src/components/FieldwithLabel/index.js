@@ -1,7 +1,7 @@
 import React from "react";
 import { string } from "prop-types";
 
-import styles from "./FieldWithLabel.module.css";
+import styles from "./FieldWithLabel.module.css"
 
 const FieldWithlabel = ({wrapperClass, label, value1, value2, value1Class}) => {
   const wrapperClassName = wrapperClass || "field-wrapper";
